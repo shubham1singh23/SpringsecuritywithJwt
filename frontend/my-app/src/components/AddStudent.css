@@ -1,0 +1,25 @@
+.add-student {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.add-student h2 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.form-group input {
+  margin-bottom: 1rem;
+}
+
+.btn {
+  width: 100%;
+  margin-top: 1rem;
+}
