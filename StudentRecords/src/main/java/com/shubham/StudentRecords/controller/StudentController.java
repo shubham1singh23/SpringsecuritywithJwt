@@ -4,7 +4,9 @@ import com.shubham.StudentRecords.model.Student;
 import java.util.*;
 
 import com.shubham.StudentRecords.service.StudentService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
     @Autowired
     private StudentService service;
+
+    @GetMapping("csrf-token")
+    public CsrfToken getCsrf(HttpServletRequest request){
+        return (CsrfToken) request.getAttribute("_csrf");
+    }
 
     @GetMapping("students")
     public List<Student> getStudents(){
@@ -35,5 +42,10 @@ public class StudentController {
     public String deleteStudent(@PathVariable int rollno){
         service.deleteStudent(rollno);
         return "Success";
+    }
+
+    @GetMapping("students/search/{keyword}")
+    public List<Student> search(@PathVariable("keyword") String keyword){
+       return service.search(keyword);
     }
 }

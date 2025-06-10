@@ -28,4 +28,8 @@ public class StudentService {
     public void deleteStudent(int id) {
         repo.deleteById(id);
     }
+
+    public List<Student> search(String keyword) {
+       return repo.findByNameContaining(keyword);
+    }
 }

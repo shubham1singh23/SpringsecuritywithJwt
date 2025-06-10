@@ -25,34 +25,23 @@ function AddStudent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Convert string values to appropriate types
       const formattedStudent = {
-        rollno: parseInt(student.rollno),
+        rollno: student.rollno.trim(),
         name: student.name.trim(),
-        cgpa: parseFloat(student.cgpa), // Changed to parseFloat for decimal values
+        cgpa: parseFloat(student.cgpa),
         subjects: student.subjects.split(',').map(s => s.trim()).filter(Boolean)
       };
-
-      // Validate the data
-      if (isNaN(formattedStudent.rollno) || formattedStudent.rollno <= 0) {
-        setError('Please enter a valid roll number');
-        return;
-      }
 
       if (isNaN(formattedStudent.cgpa) || formattedStudent.cgpa < 0 || formattedStudent.cgpa > 10) {
         setError('CGPA must be between 0 and 10');
         return;
       }
 
-      const response = await axios.post('http://localhost:8080/students', formattedStudent);
-      if (response.data === 'success') {
-        navigate('/');
-      } else {
-        setError('Failed to add student');
-      }
+      await axios.post('http://localhost:8080/students', formattedStudent);
+      navigate('/');
     } catch (error) {
       console.error('Error adding student:', error);
-      setError(error.response?.data || 'Error adding student. Please try again.');
+      setError(error.response?.data?.message || 'Error adding student. Please try again.');
     }
   };
 
