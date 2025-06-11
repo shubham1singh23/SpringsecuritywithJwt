@@ -1,6 +1,7 @@
 package com.shubham.StudentRecords.controller;
 
 import com.shubham.StudentRecords.model.Users;
+import com.shubham.StudentRecords.service.JwtService;
 import com.shubham.StudentRecords.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
+    @Autowired
+    JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -25,7 +28,7 @@ public class UserController {
     public String login(@RequestBody Users users){
         Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(users.getUsername(),users.getPassword()));
         if(authentication.isAuthenticated()){
-            return "Success";
+            return jwtService.generateToken(users.getUsername());
         }
         else{
             return "Login Failed";
